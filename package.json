@@ -1,0 +1,18 @@
+{
+  "name": "pq-rrec-portfolio",
+  "version": "0.0.1",
+  "description": "Website for showing off PlatinumQuest replay files",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.thearst3rd.com/thearst3rd/pq-rrec-portfolio"
+  },
+  "author": "Terry Hearst",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
