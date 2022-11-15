@@ -5,6 +5,7 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const fs = require("fs")
+const Handlebars = require("handlebars")
 
 // Default configuration. These properties can be overrided by creating a file "config.json"
 let config = {
@@ -22,7 +23,14 @@ catch (err) {
 	// no big deal, we just roll with the default
 }
 
-app.use(express.static(path.join(__dirname, "public")))
+const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
+let portfolioHtml = portfolioTemplate({
+	title: config.title
+})
+
+app.get("/", (req, res) => {
+	res.send(portfolioHtml)
+})
 
 const server = app.listen(config.port, () => {
 	console.log("Listening on port " + server.address().port)
