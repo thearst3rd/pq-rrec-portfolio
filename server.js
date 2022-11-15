@@ -25,7 +25,26 @@ catch (err) {
 
 const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
 let portfolioHtml = portfolioTemplate({
-	title: config.title
+	title: config.title,
+	replays: [
+		{
+			filename: "71XWhiteNoise0017465.rrec.zip",
+			level: "platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs",
+			name: "7-1X: White Noise 00:17.465",
+			description: "6th place wtf lmao",
+			author: "thearst3rd",
+			date: "2022/08/20 00:08",
+			video: "https://youtu.be/g8fpdUHoL_U?t=2161",
+		},
+		{
+			filename: "71XWhiteNoise0026124.rrec.zip",
+			level: "platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs",
+			name: "7-1X: White Noise 00:26.124",
+			description: "ok???",
+			author: "thearst3rd",
+			date: "2022/05/28 19:56",
+		},
+	],
 })
 
 app.get("/", (req, res) => {

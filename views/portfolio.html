@@ -20,19 +20,27 @@
 						<th>Name</th>
 						<th>Description</th>
 						<th>Author</th>
+						<th>Date</th>
 						<th>Video</th>
 					</tr>
+					{{#each replays}}
 					<tr>
-						<td><a href="./rrec/71XWhiteNoise0017465.rrec.zip">71XWhiteNoise0017465.rrec.zip</a></td>
-						<td>platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs</td>
-						<td>7-1X: White Noise 00:17.465</td>
-						<td>6th place wtf lmao</td>
-						<td>thearst3rd</td>
-						<td><a href="https://youtu.be/g8fpdUHoL_U?t=2161" class="btn btn-primary">Watch</a></td>
+						<td><a href="./recordings/{{filename}}">{{filename}}</a></td>
+						<td><p style="width:200px; word-wrap:break-word;">{{level}}</p></td>
+						<td>{{name}}</td>
+						<td>{{description}}</td>
+						<td>{{author}}</td>
+						<td>{{date}}</td>
+						{{#if video}}
+						<td><a href="{{video}}" class="btn btn-primary">Watch</a></td>
+						{{else}}
+						<td></td>
+						{{/if}}
 					</tr>
+					{{/each}}
 				</table>
 			</main>
-			<footer class="pt-5 my-5 text-muted border-top">
+			<footer class="pt-5 my-5 text-muted">
 				Portfolio viewer by thearst3rd - <a href="https://git.thearst3rd.com/thearst3rd/pq-rrec-portfolio">Source code</a>
 			</footer>
 		</div>
