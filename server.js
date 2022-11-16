@@ -12,6 +12,8 @@ let config = {
 	port: 3000,
 	title: "PlatinumQuest Replay Portfolio",
 	rrecDirectory: "recordings", // I really wanted to name this "dirrectory", but alas, good programming practices...
+	serveRecordings: true, // Set to false if you'll be hosting the files with another service (e.g. nginx)
+	downloadUrl: null,
 }
 
 try {
@@ -23,6 +25,10 @@ try {
 catch (err) {
 	// no big deal, we just roll with the default
 }
+
+let downloadUrl = "recordings"
+if (config.downloadUrl)
+downloadUrl = config.downloadUrl
 
 const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
 let replayList, portfolioHtml
@@ -52,6 +58,7 @@ function generateReplayList() {
 function compileHtml() {
 	portfolioHtml = portfolioTemplate({
 		title: config.title,
+		downloadUrl: downloadUrl,
 		replays: replayList
 	})
 }
@@ -60,7 +67,9 @@ app.get("/", (req, res) => {
 	res.send(portfolioHtml)
 })
 
-app.use("/recordings", express.static(config.rrecDirectory))
+if (config.serveRecordings) {
+	app.use("/" + downloadUrl, express.static(config.rrecDirectory))
+}
 
 const server = app.listen(config.port, () => {
 	console.log("Listening on port " + server.address().port)
