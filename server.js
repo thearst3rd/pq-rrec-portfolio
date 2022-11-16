@@ -24,9 +24,13 @@ catch (err) {
 }
 
 const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
-let portfolioHtml = portfolioTemplate({
-	title: config.title,
-	replays: [
+let replayList, portfolioHtml
+
+generateReplayList()
+compileHtml()
+
+function generateReplayList() {
+	let newReplayList = [
 		{
 			filename: "71XWhiteNoise0017465.rrec.zip",
 			level: "platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs",
@@ -44,8 +48,16 @@ let portfolioHtml = portfolioTemplate({
 			author: "thearst3rd",
 			date: "2022/05/28 19:56",
 		},
-	],
-})
+	]
+	replayList = newReplayList
+}
+
+function compileHtml() {
+	portfolioHtml = portfolioTemplate({
+		title: config.title,
+		replays: replayList
+	})
+}
 
 app.get("/", (req, res) => {
 	res.send(portfolioHtml)
