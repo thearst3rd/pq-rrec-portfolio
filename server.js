@@ -11,6 +11,7 @@ const Handlebars = require("handlebars")
 let config = {
 	port: 3000,
 	title: "PlatinumQuest Replay Portfolio",
+	rrecDirectory: "recordings", // I really wanted to name this "dirrectory", but alas, good programming practices...
 }
 
 try {
@@ -30,25 +31,21 @@ generateReplayList()
 compileHtml()
 
 function generateReplayList() {
-	let newReplayList = [
-		{
-			filename: "71XWhiteNoise0017465.rrec.zip",
-			level: "platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs",
-			name: "7-1X: White Noise 00:17.465",
-			description: "6th place wtf lmao",
-			author: "thearst3rd",
-			date: "2022/08/20 00:08",
-			video: "https://youtu.be/g8fpdUHoL_U?t=2161",
-		},
-		{
-			filename: "71XWhiteNoise0026124.rrec.zip",
-			level: "platinum/data/lbmissions_pq/bonus/WhiteNoise.mcs",
-			name: "7-1X: White Noise 00:26.124",
-			description: "ok???",
-			author: "thearst3rd",
-			date: "2022/05/28 19:56",
-		},
-	]
+	let newReplayList = []
+	let rrecFilenames = fs.readdirSync(config.rrecDirectory)
+	for (const i in rrecFilenames) {
+		const filename = rrecFilenames[i]
+		const fullFilePath = path.join(config.rrecDirectory, filename)
+		const stats = fs.statSync(fullFilePath)
+		if (stats.isFile()) {
+			let dateString = stats.birthtime.toISOString()
+			dateString = dateString.replace("T", " ").substring(0, dateString.length - 5)
+			newReplayList.push({
+				filename: filename,
+				date: dateString,
+			})
+		}
+	}
 	replayList = newReplayList
 }
 
@@ -62,6 +59,8 @@ function compileHtml() {
 app.get("/", (req, res) => {
 	res.send(portfolioHtml)
 })
+
+app.use("/recordings", express.static(config.rrecDirectory))
 
 const server = app.listen(config.port, () => {
 	console.log("Listening on port " + server.address().port)
