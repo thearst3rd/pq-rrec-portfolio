@@ -28,7 +28,7 @@ catch (err) {
 
 let downloadUrl = "recordings"
 if (config.downloadUrl)
-downloadUrl = config.downloadUrl
+	downloadUrl = config.downloadUrl
 
 const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
 let replayList, portfolioHtml
