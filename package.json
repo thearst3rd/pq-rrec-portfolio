@@ -13,6 +13,7 @@
   "author": "Terry Hearst",
   "license": "MIT",
   "dependencies": {
+    "adm-zip": "^0.5.9",
     "express": "^4.18.2",
     "handlebars": "^4.7.7"
   }
