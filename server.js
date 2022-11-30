@@ -15,6 +15,7 @@ let config = {
 	rrecDirectory: "recordings", // I really wanted to name this "dirrectory", but alas, good programming practices...
 	serveRecordings: true, // Set to false if you'll be hosting the files with another service (e.g. nginx)
 	downloadUrl: null,
+	excludeFiles: ["lb-current.rrec", "lb-latest.rrec"],
 }
 
 try {
@@ -98,6 +99,8 @@ function generateReplayList() {
 	for (const i in rrecFilenames) {
 		console.log("%d/%d", i, rrecFilenames.length)
 		const filename = rrecFilenames[i]
+		if (config.excludeFiles.includes(filename))
+			continue
 		const fullFilePath = path.join(config.rrecDirectory, filename)
 		const stats = fs.statSync(fullFilePath)
 		if (!stats.isFile())
