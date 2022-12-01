@@ -32,11 +32,7 @@ let downloadUrl = "recordings"
 if (config.downloadUrl)
 	downloadUrl = config.downloadUrl
 
-const portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
-let replayList, portfolioHtml
-
-generateReplayList()
-compileHtml()
+let replayList, portfolioTemplate, portfolioHtml
 
 function readReplayHeader(filename) {
 	let buf
@@ -96,8 +92,12 @@ function readReplayHeader(filename) {
 function generateReplayList() {
 	let newReplayList = []
 	let rrecFilenames = fs.readdirSync(config.rrecDirectory)
+	console.log("Reading replay files")
 	for (const i in rrecFilenames) {
-		console.log("%d/%d", i, rrecFilenames.length)
+		const naturalIndex = parseInt(i) + 1
+		if ((naturalIndex % 100 === 0) || (naturalIndex === rrecFilenames.length))
+			console.log("%d/%d", naturalIndex, rrecFilenames.length)
+
 		const filename = rrecFilenames[i]
 		if (config.excludeFiles.includes(filename))
 			continue
@@ -125,7 +125,13 @@ function generateReplayList() {
 	replayList = newReplayList
 }
 
-function compileHtml() {
+function compilePortfolioTemplate() {
+	console.log("Compiling template")
+	portfolioTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, "views", "portfolio.html")).toString())
+}
+
+function generateHtml() {
+	console.log("Generating HTML")
 	portfolioHtml = portfolioTemplate({
 		title: config.title,
 		downloadUrl: downloadUrl,
@@ -133,6 +139,16 @@ function compileHtml() {
 		replays: replayList,
 	})
 }
+
+generateReplayList()
+compilePortfolioTemplate()
+generateHtml()
+
+fs.watch(path.join(__dirname, "views", "portfolio.html"), (eventType, filename) => {
+	console.log("File %s modified: %s", filename, eventType)
+	compilePortfolioTemplate()
+	generateHtml()
+})
 
 app.get("/", (req, res) => {
 	res.send(portfolioHtml)
