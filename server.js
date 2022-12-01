@@ -129,7 +129,8 @@ function compileHtml() {
 	portfolioHtml = portfolioTemplate({
 		title: config.title,
 		downloadUrl: downloadUrl,
-		replays: replayList
+		hasVideos: false,
+		replays: replayList,
 	})
 }
 

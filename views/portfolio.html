@@ -29,7 +29,9 @@
 						<th><p class="tTitle">Description</p></th>
 						<th><p class="tTitle">Author</p></th>
 						<th><p class="tTitle">Date</p></th>
+						{{#if hasVideos}}
 						<th><p class="tTitle">Video</p></th>
+						{{/if}}
 					</tr>
 					{{#each replays}}
 					<tr>
@@ -39,10 +41,12 @@
 						<td><p class="tEntry">{{description}}</p></td>
 						<td><p class="tEntry">{{author}}</p></td>
 						<td><p class="tEntry">{{date}}</p></td>
+						{{#if ../hasVideos}}
 						{{#if video}}
 						<td><a href="{{video}}" class="btn btn-primary">Watch</a></td>
 						{{else}}
 						<td></td>
+						{{/if}}
 						{{/if}}
 					</tr>
 					{{/each}}
