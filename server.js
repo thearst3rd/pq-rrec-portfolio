@@ -113,9 +113,17 @@ function generateReplayList() {
 		let dateString = stats.birthtime.toISOString()
 		dateString = dateString.replace("T", " ").substring(0, dateString.length - 5)
 
+		let missionFileWithBreaks = ""
+		for (let c of replayHeader.missionFile) {
+			if (c === "/")
+				missionFileWithBreaks += "\u200B" // Zero-width space
+			missionFileWithBreaks += c
+		}
+
 		newReplayList.push({
 			filename: filename,
-			level: replayHeader.missionFile,
+			mission: missionFileWithBreaks,
+			missionFile: replayHeader.missionFile,
 			name: (replayHeader.name === undefined) ? filename : replayHeader.name,
 			description: replayHeader.description,
 			author: replayHeader.author,
