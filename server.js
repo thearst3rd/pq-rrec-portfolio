@@ -116,7 +116,7 @@ function generateReplayList() {
 		newReplayList.push({
 			filename: filename,
 			level: replayHeader.missionFile,
-			name: replayHeader.name,
+			name: (replayHeader.name === undefined) ? filename : replayHeader.name,
 			description: replayHeader.description,
 			author: replayHeader.author,
 			date: dateString,
