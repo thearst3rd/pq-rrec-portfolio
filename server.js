@@ -110,7 +110,7 @@ function generateReplayList() {
 		if (replayHeader == null)
 			continue
 
-		let dateString = stats.birthtime.toISOString()
+		let dateString = stats.mtime.toISOString()
 		dateString = dateString.replace("T", " ").substring(0, dateString.length - 5)
 
 		let missionFileWithBreaks = ""
